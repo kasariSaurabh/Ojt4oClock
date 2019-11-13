@@ -51,50 +51,92 @@ for(int j=1; j<=excel.rowCount(TCModule);j++)
 	try{
 		if(Object_Type.equalsIgnoreCase("startBrowser"))
 		{
+			try{
 			driver=FunctionLibrary.startBrowser(driver);
 			test.log(LogStatus.INFO, Description);
+			}finally{
+				excel.setCellData("MasterTestCases", i, 3, "Fail");
+			}
 		}else if(Object_Type.equalsIgnoreCase("openApplication"))
 		{
+			try{
 			FunctionLibrary.openApplication(driver);
 			test.log(LogStatus.INFO, Description);
+			}finally{
+				excel.setCellData("MasterTestCases", i, 3, "Fail");
+			}
 		}else if(Object_Type.equalsIgnoreCase("waitForElement"))
 		{
+			try{
 			FunctionLibrary.waitForElement(driver, Locator_Type, Locator_Value, Test_Data);
 			test.log(LogStatus.INFO, Description);
+			}finally{
+				excel.setCellData("MasterTestCases", i, 3, "Fail");
+			}
 		}else if(Object_Type.equalsIgnoreCase("typeAction"))
 		{
+			try{
 			FunctionLibrary.typeAction(driver, Locator_Type, Locator_Value, Test_Data);
 			test.log(LogStatus.INFO, Description);
+			}finally{
+				excel.setCellData("MasterTestCases", i, 3, "Fail");
+			}
 		}else if(Object_Type.equalsIgnoreCase("clickAction"))
 		{
+			try{
 			FunctionLibrary.clickAction(driver, Locator_Type, Locator_Value);
 			test.log(LogStatus.INFO, Description);
+			}finally{
+				//ModuleStatus="false";
+				excel.setCellData("MasterTestCases", i, 3, "Fail");
+			}
+			
 		}else if(Object_Type.equalsIgnoreCase("closeBrowser"))
 		{
+			try{
 			FunctionLibrary.closeBrowser(driver);
 			test.log(LogStatus.INFO, Description);
+			}finally{
+				excel.setCellData("MasterTestCases", i, 3, "Fail");
+			}
 		}else if(Object_Type.equalsIgnoreCase("capturData"))
 		{
+			try{
 			FunctionLibrary.capturData(driver, Locator_Type, Locator_Value);
 			test.log(LogStatus.INFO, Description);
+			}finally{
+				excel.setCellData("MasterTestCases", i, 3, "Fail");
+			}
 		}else if(Object_Type.equalsIgnoreCase("tableValidation"))
 		{
+			try{
 			FunctionLibrary.tableValidation(driver, Test_Data);
 			test.log(LogStatus.INFO, Description);
+			}finally{
+				excel.setCellData("MasterTestCases", i, 3, "Fail");
+			}
 		}
 		else if(Object_Type.equalsIgnoreCase("stockCategories"))
 		{
+			try{
 			FunctionLibrary.stockCategories(driver);
 			test.log(LogStatus.INFO, Description);
+			}finally{
+				excel.setCellData("MasterTestCases", i, 3, "Fail");
+			}
 		}else if(Object_Type.equalsIgnoreCase("stockValidation"))
 		{
+			try{
 			FunctionLibrary.stockValidation(driver, Test_Data);
-			test.log(LogStatus.INFO, Description);		
+			test.log(LogStatus.INFO, Description);
+			}finally{
+				excel.setCellData("MasterTestCases", i, 3, "Fail");
+			}
 		}
 		//write as pass into TCModule status column
-		excel.setCellData(TCModule, j, 5, "Pass");
-		test.log(LogStatus.PASS, Description);
-		ModuleStatus="true";
+		//excel.setCellData(TCModule, j, 5, "Pass");
+		//test.log(LogStatus.PASS, Description);
+		//ModuleStatus="true";
 	}catch(Exception e){
 		System.err.println(e.getMessage());
 		//write as Fail into TCModule status column
@@ -105,11 +147,15 @@ for(int j=1; j<=excel.rowCount(TCModule);j++)
 		File screen=((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
 		//copy screen shot into local system
 		FileUtils.copyFile(screen, new File("D:\\Ojt4oclock\\ERP_Accounting\\Screen\\"+Description+FunctionLibrary.generateDate()+".png"));
-		ModuleStatus="false";
+		//ModuleStatus="false";
 		report.flush();
 		report.endTest(test);
 		break;
 	}
+	excel.setCellData(TCModule, j, 5, "Pass");
+	test.log(LogStatus.PASS, Description);
+	ModuleStatus="true";
+
 	if(ModuleStatus.equalsIgnoreCase("True"))
 	{
 		excel.setCellData("MasterTestCases", i, 3, "Pass");
